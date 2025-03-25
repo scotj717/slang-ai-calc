@@ -113,7 +113,6 @@ const AdvancedSlangAICalculator = () => {
     costPerCallWith: 0,
     costReductionPercent: 0,
     fteFreed: 0,
-
     // New metrics
     firstYearTCO: 0,
     fiveYearTCO: 0,
@@ -503,15 +502,9 @@ const AdvancedSlangAICalculator = () => {
       return (
         <div className="bg-white p-4 border border-gray-200 shadow-lg rounded-md">
           <p className="font-bold text-sm">{`Hourly Wage: ${formatWage(label)}`}</p>
-          <p className="text-blue-500">{`Without Slang.AI: ${formatCurrency(
-            payload[0].value
-          )}`}</p>
-          <p className="text-green-500">{`With Slang.AI: ${formatCurrency(
-            payload[1].value
-          )}`}</p>
-          <p className="text-purple-500">{`Savings: ${formatCurrency(
-            payload[0].value - payload[1].value
-          )}`}</p>
+          <p className="text-blue-500">{`Without Slang.AI: ${formatCurrency(payload[0].value)}`}</p>
+          <p className="text-green-500">{`With Slang.AI: ${formatCurrency(payload[1].value)}`}</p>
+          <p className="text-purple-500">{`Savings: ${formatCurrency(payload[0].value - payload[1].value)}`}</p>
           <p className="text-gray-500 text-xs mt-2">Monthly labor cost</p>
         </div>
       );
@@ -534,15 +527,9 @@ const AdvancedSlangAICalculator = () => {
       return (
         <div className="bg-white p-4 border border-gray-200 shadow-lg rounded-md">
           <p className="font-bold text-sm">{`Month ${label}`}</p>
-          <p className="text-blue-500">{`Monthly Savings: ${formatCurrency(
-            payload[0].value
-          )}`}</p>
-          <p className="text-green-500">{`Cumulative Savings: ${formatCurrency(
-            payload[1].value
-          )}`}</p>
-          <p className="text-purple-500">{`ROI: ${formatPercent(
-            payload[2].value
-          )}`}</p>
+          <p className="text-blue-500">{`Monthly Savings: ${formatCurrency(payload[0].value)}`}</p>
+          <p className="text-green-500">{`Cumulative Savings: ${formatCurrency(payload[1].value)}`}</p>
+          <p className="text-purple-500">{`ROI: ${formatPercent(payload[2].value)}`}</p>
         </div>
       );
     }
@@ -564,9 +551,7 @@ const AdvancedSlangAICalculator = () => {
       return (
         <div className="bg-white p-4 border border-gray-200 shadow-lg rounded-md">
           <p className="font-bold text-sm">{payload[0].name}</p>
-          <p className="text-gray-700">{`${payload[0].value.toFixed(
-            1
-          )} hours (${percentage.toFixed(1)}%)`}</p>
+          <p className="text-gray-700">{`${payload[0].value.toFixed(1)} hours (${percentage.toFixed(1)}%)`}</p>
         </div>
       );
     }
@@ -592,18 +577,10 @@ const AdvancedSlangAICalculator = () => {
       return (
         <div className="bg-white p-4 border border-gray-200 shadow-lg rounded-md">
           <p className="font-bold text-sm">{label}</p>
-          <p className="text-blue-500">{`Without Slang.AI: ${formatCurrency(
-            payload[0].value
-          )}`}</p>
-          <p className="text-green-500">{`With Slang.AI: ${formatCurrency(
-            payload[1].value
-          )}`}</p>
-          <p className="text-purple-500">{`Savings: ${formatCurrency(
-            payload[2].value
-          )}`}</p>
-          <p className="text-gray-500">{`Seasonal Factor: ${payload[0].payload.factor.toFixed(
-            2
-          )}x`}</p>
+          <p className="text-blue-500">{`Without Slang.AI: ${formatCurrency(payload[0].value)}`}</p>
+          <p className="text-green-500">{`With Slang.AI: ${formatCurrency(payload[1].value)}`}</p>
+          <p className="text-purple-500">{`Savings: ${formatCurrency(payload[2].value)}`}</p>
+          <p className="text-gray-500">{`Seasonal Factor: ${payload[0].payload.factor.toFixed(2)}x`}</p>
         </div>
       );
     }
@@ -612,9 +589,7 @@ const AdvancedSlangAICalculator = () => {
 
   const currentAvgWage =
     numberOfHosts > 0
-      ? wagePerHost
-          .slice(0, numberOfHosts)
-          .reduce((sum, wage) => sum + (wage === '' || isNaN(wage) ? 0 : wage), 0) / numberOfHosts
+      ? wagePerHost.slice(0, numberOfHosts).reduce((sum, wage) => sum + (wage === '' || isNaN(wage) ? 0 : wage), 0) / numberOfHosts
       : 0;
 
   const MetricCard = ({ title, value, description, isPositive, isCurrency, isPercentage, isTime, icon }) => {
@@ -719,159 +694,162 @@ const AdvancedSlangAICalculator = () => {
             isCurrency
             icon={
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37" />
               </svg>
             }
           />
         </div>
-      ) else if (selectedView === 'operational') {
-        return (
-          <div className="grid grid-cols-2 md:grid-cols-6 gap-3">
-            <MetricCard
-              title="Staff Time Saved"
-              value={metrics.monthlySavedHours}
-              description="Hours per month"
-              isPositive
-              icon={
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              }
-            />
-            <MetricCard
-              title="FTE Equivalent"
-              value={metrics.fteFreed}
-              description="Full-time employees freed"
-              isPositive
-              icon={
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
-              }
-            />
-            <MetricCard
-              title="Staff Utilization"
-              value={metrics.staffUtilizationRate}
-              description="Remaining work percentage"
-              isPercentage
-              icon={
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2" />
-                </svg>
-              }
-            />
-            <MetricCard
-              title="Automation Rate"
-              value={metrics.callAutomationRateWeighted}
-              description="Weighted by call type"
-              isPercentage
-              isPositive
-              icon={
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517" />
-                </svg>
-              }
-            />
-            <MetricCard
-              title="Call Quality Score"
-              value={metrics.callQualityScore}
-              description="Out of 100"
-              isPositive={metrics.callQualityScore >= 75}
-              icon={
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888" />
-                </svg>
-              }
-            />
-            <MetricCard
-              title="Training Time Saved"
-              value={metrics.trainingTimeSaved}
-              description="Hours per year"
-              isPositive
-              icon={
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13" />
-                </svg>
-              }
-            />
-          </div>
-        ) else if (selectedView === 'revenue') {
-          return (
-            <div className="grid grid-cols-2 md:grid-cols-6 gap-3">
-              <MetricCard
-                title="After-Hours Savings"
-                value={metrics.afterHoursSavings}
-                description="Monthly cost avoided"
-                isPositive
-                isCurrency
-                icon={
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                  </svg>
-                }
-              />
-              <MetricCard
-                title="Missed Call Revenue"
-                value={metrics.missedCallRevenueRecovered}
-                description="Monthly revenue saved"
-                isPositive
-                isCurrency
-                icon={
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4" />
-                  </svg>
-                }
-              />
-              <MetricCard
-                title="Retention Value"
-                value={metrics.customerRetentionValue}
-                description="3-month LTV impact"
-                isPositive
-                isCurrency
-                icon={
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7" />
-                  </svg>
-                }
-              />
-              <MetricCard
-                title="Cost Per Call"
-                value={metrics.costPerCallWithout}
-                description={`vs ${formatCurrency(metrics.costPerCallWith)} with Slang.AI`}
-                isCurrency
-                icon={
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493" />
-                  </svg>
-                }
-              />
-              <MetricCard
-                title="Peak Season Savings"
-                value={metrics.peakSeasonSavings}
-                description="During busiest month"
-                isPositive
-                isCurrency
-                icon={
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 8v8m-4-5v5m-4-2v2" />
-                  </svg>
-                }
-              />
-              <MetricCard
-                title="Carbon Reduction"
-                value={metrics.carbonFootprintReduction}
-                description="Metric tons CO₂/year"
-                isPositive
-                icon={
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1" />
-                  </svg>
-                }
-              />
-            </div>
-          }
-          return null;
-        };
+      );
+    } else if (selectedView === 'operational') {
+      return (
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-3">
+          <MetricCard
+            title="Staff Time Saved"
+            value={metrics.monthlySavedHours}
+            description="Hours per month"
+            isPositive
+            icon={
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            }
+          />
+          <MetricCard
+            title="FTE Equivalent"
+            value={metrics.fteFreed}
+            description="Full-time employees freed"
+            isPositive
+            icon={
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+            }
+          />
+          <MetricCard
+            title="Staff Utilization"
+            value={metrics.staffUtilizationRate}
+            description="Remaining work percentage"
+            isPercentage
+            icon={
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2" />
+              </svg>
+            }
+          />
+          <MetricCard
+            title="Automation Rate"
+            value={metrics.callAutomationRateWeighted}
+            description="Weighted by call type"
+            isPercentage
+            isPositive
+            icon={
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517" />
+              </svg>
+            }
+          />
+          <MetricCard
+            title="Call Quality Score"
+            value={metrics.callQualityScore}
+            description="Out of 100"
+            isPositive={metrics.callQualityScore >= 75}
+            icon={
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915" />
+              </svg>
+            }
+          />
+          <MetricCard
+            title="Training Time Saved"
+            value={metrics.trainingTimeSaved}
+            description="Hours per year"
+            isPositive
+            icon={
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13" />
+              </svg>
+            }
+          />
+        </div>
+      );
+    } else if (selectedView === 'revenue') {
+      return (
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-3">
+          <MetricCard
+            title="After-Hours Savings"
+            value={metrics.afterHoursSavings}
+            description="Monthly cost avoided"
+            isPositive
+            isCurrency
+            icon={
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+              </svg>
+            }
+          />
+          <MetricCard
+            title="Missed Call Revenue"
+            value={metrics.missedCallRevenueRecovered}
+            description="Monthly revenue saved"
+            isPositive
+            isCurrency
+            icon={
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4" />
+              </svg>
+            }
+          />
+          <MetricCard
+            title="Retention Value"
+            value={metrics.customerRetentionValue}
+            description="3-month LTV impact"
+            isPositive
+            isCurrency
+            icon={
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7" />
+              </svg>
+            }
+          />
+          <MetricCard
+            title="Cost Per Call"
+            value={metrics.costPerCallWithout}
+            description={`vs ${formatCurrency(metrics.costPerCallWith)} with Slang.AI`}
+            isCurrency
+            icon={
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493" />
+              </svg>
+            }
+          />
+          <MetricCard
+            title="Peak Season Savings"
+            value={metrics.peakSeasonSavings}
+            description="During busiest month"
+            isPositive
+            isCurrency
+            icon={
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 8v8m-4-5v5m-4-2v2" />
+              </svg>
+            }
+          />
+          <MetricCard
+            title="Carbon Reduction"
+            value={metrics.carbonFootprintReduction}
+            description="Metric tons CO₂/year"
+            isPositive
+            icon={
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1" />
+              </svg>
+            }
+          />
+        </div>
+      );
+    }
+    return null;
+  };
 
   return (
     <div className="max-w-6xl mx-auto p-4">
