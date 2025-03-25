@@ -1,9 +1,12 @@
 {
-  "name": "slang-ai-calc",
-  "version": "0.1.0",
+  "name": "slangai-calculator",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
-    // ... your dependencies here
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "recharts": "^2.10.3",
+    "lodash": "^4.17.21"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -11,14 +14,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "engines": {
-    "node": "16.x",
-    "npm": "8.x"
-  }
   "eslintConfig": {
     "extends": [
-      "react-app",
-      "react-app/jest"
+      "react-app"
     ]
   },
   "browserslist": {
