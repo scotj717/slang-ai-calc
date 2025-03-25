@@ -1465,4 +1465,46 @@ const AdvancedSlangAICalculator = () => {
                       tickFormatter={(value) => `$${value}`}
                     />
                     <Tooltip content={<CustomTooltip />} />
-                    <Legend />
+                    <Legend/>
+<Line 
+  type="monotone" 
+  dataKey="withoutSlangAI" 
+  name="Without Slang.AI" 
+  stroke="#3b82f6" 
+  strokeWidth={2} 
+  dot={false} 
+  activeDot={{ r: 6 }} 
+/>
+<Line 
+  type="monotone" 
+  dataKey="withSlangAI" 
+  name="With Slang.AI" 
+  stroke="#10b981" 
+  strokeWidth={2} 
+  dot={false} 
+  activeDot={{ r: 6 }} 
+/>
+{breakEvenPoint && (
+  <ReferenceDot 
+    x={breakEvenPoint.wage} 
+    y={breakEvenPoint.cost} 
+    r={6} 
+    fill="red" 
+    stroke="none"
+  >
+    <Label 
+      value={`Break-Even: $${breakEvenPoint.wage}`} 
+      position="top" 
+      fill="red"
+      fontSize={12}
+      fontWeight="bold" 
+    />
+  </ReferenceDot>
+)}
+</LineChart>
+</ResponsiveContainer>
+</div>
+<p className="text-xs text-gray-500 mt-2">
+  As hourly wages increase, Slang.AI becomes more cost-effective compared to traditional staffing.
+</p>
+</div>
